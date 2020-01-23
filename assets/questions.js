@@ -1,25 +1,42 @@
 var questions = [
   {
-    title: 'first question',
-    choices: ['string', 'string','string', 'string', 'string'],
-    answer: ''
+    title: 'In HTML the largest heading is called _____.',
+    choices: [
+      'h1',
+      'p',
+      'a',
+      'h3'
+    ],
+    answer: 'h1'
   },
   {
-    title: 'second question',
-    choices: ['string', 'string','string', 'string', 'string'],
-    answer: ''
+    title: 'The correct HTML element for inserting a line break is called _____.',
+    choices: [
+      'br',
+      'break',
+      'lb',
+      'b'
+    ],
+    answer: '<br>'
   },
   {
-    title: 'third question',
-    choices: ['string', 'string','string', 'string', 'string'],
-    answer: ''
+    title: 'We can put our JavaScript inside the _____ tag.',
+    choices: [
+      'script',
+      'scripting',
+      'javascript',
+      'js'
+    ],
+    answer: 'script'
   },
   {
-    title: 'fourth question',
-    choices: ['string', 'string','string', 'string', 'string'],
-    answer: ''
+    title: 'We use _____ to log things to the console.',
+    choices: [
+      'alert("message");',
+      'log("message");',
+      'msg("message");',
+      'console.log("message");'
+    ],
+    answer: 'console.log("message");'
   },
 ];
-
-
-export default questions;
