@@ -97,7 +97,7 @@ h1, p {
   padding: 7px 15px;
   border-radius: 20px;
   cursor: pointer;
-  font-size: 16px;
+  /* font-size: 16px; */
 }
 
 #responses li:hover {
@@ -107,9 +107,10 @@ h1, p {
 
 #alert {
   background: #000;
-  padding: 70px;
+  padding: 100px;
   color: #fff;
   display: none;
+  z-index: 10;
 }
 
 

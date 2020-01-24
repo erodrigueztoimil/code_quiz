@@ -38,6 +38,7 @@ function handleUserName() {
 }
 
 
+
 // populate the page with each question content corresponding the current question index
 function renderQuestion() {
   var question = questions[currentQuestion];
@@ -59,51 +60,97 @@ function renderQuestion() {
   });
 }
 
-// when li is clicked go to next question
-questionPage.addEventListener('click', function(event) {
+// on li click, go to next question or display my score
+questionPage.addEventListener('click', function() {
   if (event.target.matches('li')) {
-    var answer = questions[currentQuestion].answer;
     var lastQuestion = questions.length-1;
 
-    if (currentQuestion < lastQuestion) {
-      var myAlert = document.getElementById('alert');
+    if (currentQuestion == lastQuestion) {
+      handleQuestion(event.target.innerText);
 
-      // if the questions matches the answer then alert correct else wrong
-      if (event.target.innerText == answer) {
-        // myAlert.style.display = 'block';
-        // myAlert.innerText = 'Correct';
-        console.log('right');
+      questionPage.style.display = 'none'; // hide questions
+      highscoresPage.style.display = 'block'; // show
+    }
 
-
-      }
-
-      else {
-        // myAlert.style.display = 'block';
-        // myAlert.innerText = 'Wrong';
-        console.log('wrong');
-      }
+    else {
+      handleQuestion(event.target.innerText)
 
       currentQuestion++ // next question
       renderQuestion();
     }
-
-    else if (lastQuestion) {
-      if (event.target.innerText == answer) {
-        // myAlert.style.display = 'block';
-        // myAlert.innerText = 'Correct';
-        console.log('right');
-      }
-
-      else {
-        // myAlert.style.display = 'block';
-        // myAlert.innerText = 'Wrong';
-        console.log('wrong');
-      }
-    }
-
-    else {
-      questionPage.style.display = 'none'; // hide questions
-      highscoresPage.style.display = 'block'; // show highscores
-    }
   }
 })
+
+
+// handles if user selection is right or wrong
+function handleQuestion(selection) {
+  var answer = questions[currentQuestion].answer;
+
+  if (selection == answer) {
+    showAlert('Right');
+  }
+
+  else {
+    showAlert('Wrong');
+  }
+}
+
+
+function showAlert(text) {
+  var alert = document.getElementById('alert');
+
+  alert.style.display = 'block';
+  alert.innerText = text;
+
+  setTimeout(function() {
+    alert.style.display = 'none';
+  }, 400);
+}
+
+
+// // when li is clicked go to next question
+// questionPage.addEventListener('click', function(event) {
+//   if (event.target.matches('li')) {
+//     var answer = questions[currentQuestion].answer;
+//     console.log(currentQuestion);
+//
+//     if (currentQuestion < questions.length) {
+//       var myAlert = document.getElementById('alert');
+//
+//       // if the questions matches the answer then alert correct else wrong
+//       if (event.target.innerText == answer) {
+//         // myAlert.style.display = 'block';
+//         // myAlert.innerText = 'Correct';
+//         console.log('right');
+//       }
+//
+//       else {
+//         // myAlert.style.display = 'block';
+//         // myAlert.innerText = 'Wrong';
+//         console.log('wrong');
+//       }
+//
+//       currentQuestion++ // next question
+//       renderQuestion();
+//     }
+//
+//     else if (questions.length-1) {
+//       if (event.target.innerText == answer) {
+//         // myAlert.style.display = 'block';
+//         // myAlert.innerText = 'Correct';
+//         console.log('right');
+//       }
+//
+//       else {
+//         // myAlert.style.display = 'block';
+//         // myAlert.innerText = 'Wrong';
+//         console.log('wrong');
+//       }
+//     }
+//
+//     else {
+//       questionPage.style.display = 'none'; // hide questions
+//       highscoresPage.style.display = 'block'; // show highscores
+//     }
+//   }
+// })
