@@ -2,6 +2,8 @@ $(document).ready(function() {
   var currentQuestion = 0;
   var currentUser = '';
   var score = 0;
+  var quizDone = false; // tells the timer if the user is done
+
 
   // when the start button is clicked, start the quiz
   $('#start-button').click(function() {
@@ -10,30 +12,54 @@ $(document).ready(function() {
     startQuiz();
   })
 
+  // on goAgain click, start quiz again
+  $('#replay-button').click(function() {
+    $('#highscores-page').hide(); // hide scores
+
+    // reset all values
+    currentQuestion = 0;
+    currentUser = '';
+    score = 0;
+    quizDone = false;
+
+    startQuiz(); // restart quiz
+  })
+
+  $('#home-button').click(function() {
+    $('#highscores-page').hide(); // hide scores
+    $('#start-page').show(); // show start page
+
+    // reset all values
+    currentQuestion = 0;
+    currentUser = '';
+    score = 0;
+    quizDone = false;
+  })
+
 
   function startQuiz() {
-    handleUserName();
+    handleName();
   }
 
   // ask the user for its name
-  function handleUserName() {
+  function handleName() {
     $('#name-page').css('display', 'flex');
 
     $('#name-page').on('keypress', function(event) {
-      if (event.key == 'Enter') {
+      if (event.which == 13) { // 13 = enter key
         if (event.target.value) {
           currentUser = event.target.value; // save current user
           $('#name-page').hide(); // hide page
 
           renderQuestion(); // start quiz
+          setTimer();
         }
       }
     })
   }
 
 
-
-  // populate the page with each question content corresponding the current question index
+  // generate questuion
   function renderQuestion() {
     var question = questions[currentQuestion];
 
@@ -52,7 +78,8 @@ $(document).ready(function() {
     });
   }
 
-  // on li click, go to next question or display my score
+
+  // on li click, go to next question or display score
   $('#question-page').click(function() {
     if (event.target.matches('li')) {
       var lastQuestion = questions.length-1;
@@ -60,13 +87,15 @@ $(document).ready(function() {
       if (currentQuestion == lastQuestion) {
         handleQuestion(event.target.innerText);
 
+        quizDone = true; // the user is done
         $('#question-page').hide(); // hide questions
         $('#highscores-page').show(); // show scores
+
+        handleScores();
       }
 
       else {
         handleQuestion(event.target.innerText)
-
         currentQuestion++ // next question
         renderQuestion();
       }
@@ -80,11 +109,33 @@ $(document).ready(function() {
 
     if (selection == answer) {
       showAlert('Right', 400);
+      score++
     }
 
     else {
       showAlert('Wrong', 400);
     }
+  }
+
+
+  function setTimer() {
+    var sec = 10;
+    var interval = setInterval(function functionName() {
+      sec--
+      $('#timer').html(sec);
+
+      if (sec == 0) {
+        clearInterval(interval);
+        showAlert('Time is over!', 1200, 'red');
+
+        $('#question-page').hide(); // hide questions
+        $('#highscores-page').show(); // show scores
+      }
+
+      if (quizDone) {
+        clearInterval(interval);
+      }
+    }, 1000)
   }
 
 
@@ -99,4 +150,21 @@ $(document).ready(function() {
       $('#alert').hide();
     }, time);
   }
+
+  var records = [];
+  var record = {};
+
+
+  function handleScores() {
+    record.user = currentUser;
+    record.result = score;
+
+    console.log(record);
+
+    $('#scores-list').append("<li><b>"+record.user+"</b> - "+record.result+"/4</li>");
+  }
+
+  // save the current user score
+
+  // localStorage.setItem(JSON.stringify())
 })

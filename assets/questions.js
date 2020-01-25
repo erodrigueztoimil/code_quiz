@@ -1,41 +1,41 @@
 var questions = [
   {
-    title: 'In HTML the largest heading is called _____.',
+    title: 'What is the largest HTML header tag?',
     choices: [
-      'h1',
       'p',
+      'h1',
       'a',
       'h3'
     ],
     answer: 'h1'
   },
   {
-    title: 'The correct HTML element for inserting a line break is called _____.',
+    title: 'What is the HTML tag for inserting an inline break?',
     choices: [
       'br',
       'break',
       'lb',
       'b'
     ],
-    answer: '<br>'
+    answer: 'br'
   },
   {
-    title: 'We can put our JavaScript inside the _____ tag.',
+    title: 'What is the HTML tag for writing JavaScript?',
     choices: [
-      'script',
       'scripting',
       'javascript',
+      'script',
       'js'
     ],
     answer: 'script'
   },
   {
-    title: 'We use _____ to log things to the console.',
+    title: 'What do we use to log to the console?',
     choices: [
       'alert("message");',
       'log("message");',
-      'msg("message");',
-      'console.log("message");'
+      'console.log("message");',
+      'msg("message");'
     ],
     answer: 'console.log("message");'
   },

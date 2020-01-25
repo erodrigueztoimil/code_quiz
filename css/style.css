@@ -9,9 +9,7 @@ h1, p {
 }
 
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  text-align: right ;
   padding: 40px 10%;
 }
 
@@ -59,7 +57,7 @@ h1, p {
   margin-bottom: 25px;
 }
 
-#start-page button {
+button {
   border: 1px solid #000;
   background-color: none;
   padding: 10px 20px;
@@ -67,7 +65,7 @@ h1, p {
   outline: none;
 }
 
-#start-page button:hover {
+button:hover {
   background-color: #000;
   color: #fff;
 }
@@ -92,16 +90,16 @@ h1, p {
 
 #responses li {
   min-width: 100px;
-  background-color: #000;
+  background-color: #f2bb7c;
   color: #fff;
   padding: 7px 15px;
-  border-radius: 20px;
+  /* border-radius: 20px; */
   cursor: pointer;
   /* font-size: 16px; */
 }
 
 #responses li:hover {
-  background-color: #465c66;
+  background-color: #000;
 }
 
 
@@ -111,6 +109,17 @@ h1, p {
   color: #fff;
   display: none;
   z-index: 10;
+}
+
+
+#scores-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+#scores-list li {
+  margin: 10px;
 }
 
 
