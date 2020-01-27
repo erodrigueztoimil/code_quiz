@@ -1,8 +1,9 @@
 $(document).ready(function() {
   var currentQuestion = 0;
+  var quizDone = false; // tells the timer if the user is done
+
   var currentUser = '';
   var score = 0;
-  var quizDone = false; // tells the timer if the user is done
 
 
   // when the start button is clicked, start the quiz
@@ -17,10 +18,10 @@ $(document).ready(function() {
     $('#highscores-page').hide(); // hide scores
 
     // reset all values
-    currentQuestion = 0;
-    currentUser = '';
-    score = 0;
     quizDone = false;
+    currentQuestion = 0;
+    score = 0;
+    $('#user-name-input').text('');
 
     startQuiz(); // restart quiz
   })
@@ -30,10 +31,10 @@ $(document).ready(function() {
     $('#start-page').show(); // show start page
 
     // reset all values
-    currentQuestion = 0;
-    currentUser = '';
-    score = 0;
     quizDone = false;
+    currentQuestion = 0;
+    score = 0;
+    $('#user-name-input').text('');
   })
 
 
@@ -59,6 +60,28 @@ $(document).ready(function() {
   }
 
 
+  // on li click, go to next question or display score
+  $('#question-page').click(function() {
+    if (event.target.matches('li')) {
+      var lastQuestion = questions.length-1;
+
+      if (currentQuestion == lastQuestion) {
+        handleQuestion(event.target.innerText);
+
+        quizDone = true; // the user is done
+        handleScores();
+      }
+
+      else {
+        handleQuestion(event.target.innerText)
+
+        currentQuestion++ // next question
+        renderQuestion();
+      }
+    }
+  })
+
+
   // generate questuion
   function renderQuestion() {
     var question = questions[currentQuestion];
@@ -79,37 +102,13 @@ $(document).ready(function() {
   }
 
 
-  // on li click, go to next question or display score
-  $('#question-page').click(function() {
-    if (event.target.matches('li')) {
-      var lastQuestion = questions.length-1;
-
-      if (currentQuestion == lastQuestion) {
-        handleQuestion(event.target.innerText);
-
-        quizDone = true; // the user is done
-        $('#question-page').hide(); // hide questions
-        $('#highscores-page').show(); // show scores
-
-        handleScores();
-      }
-
-      else {
-        handleQuestion(event.target.innerText)
-        currentQuestion++ // next question
-        renderQuestion();
-      }
-    }
-  })
-
-
   // handles if user selection is right or wrong
   function handleQuestion(selection) {
     var answer = questions[currentQuestion].answer;
 
     if (selection == answer) {
-      showAlert('Right', 400);
       score++
+      showAlert('Right', 400);
     }
 
     else {
@@ -126,10 +125,9 @@ $(document).ready(function() {
 
       if (sec == 0) {
         clearInterval(interval);
-        showAlert('Time is over!', 1200, 'red');
+        handleScores();
 
-        $('#question-page').hide(); // hide questions
-        $('#highscores-page').show(); // show scores
+        showAlert('Time is over!', 1200, 'red');
       }
 
       if (quizDone) {
@@ -151,20 +149,36 @@ $(document).ready(function() {
     }, time);
   }
 
-  var records = [];
-  var record = {};
 
+  var records = [];
+
+  // localStorage.setItem('records', JSON.stringify(records));
+  // var storedRecords = JSON.parse(localStorage.getItem('records'));
 
   function handleScores() {
-    record.user = currentUser;
-    record.result = score;
+    // var record = {};
+    // record.user = currentUser;
+    // record.result = score;
+    // records.push(record);
+    localStorage.setItem('user', currentUser);
+    localStorage.setItem('score', score);
 
-    console.log(record);
+    var storedUser = localStorage.getItem('user');
+    var storedScored = localStorage.getItem('score');
 
-    $('#scores-list').append("<li><b>"+record.user+"</b> - "+record.result+"/4</li>");
+
+    // screens
+    $('#question-page').hide(); // hide questions
+    $('#highscores-page').show(); // show scores
+
+    $('#scores-list').html(''); // erase all previous scores
+
+    // if (storedRecords) {
+    //   storedRecords.forEach(function(object, i) {
+    //     $('#scores-list').append("<li>"+storedUser+" - "+storedScored+"/4</li>"); // add values to the list
+    //   });
+    // }
+
+    $('#scores-list').append("<li>"+storedUser+" - "+storedScored+"/4</li>"); // add values to the list
   }
-
-  // save the current user score
-
-  // localStorage.setItem(JSON.stringify())
 })
