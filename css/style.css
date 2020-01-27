@@ -11,6 +11,13 @@ h1, p {
 .header {
   text-align: right ;
   padding: 40px 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#view-scores {
+  cursor: pointer;
 }
 
 /* set the cursor to pointer */

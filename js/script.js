@@ -149,36 +149,51 @@ $(document).ready(function() {
     }, time);
   }
 
+  $('#view-scores').click(function() {
+    // $('#view-scores').html('');
 
-  var records = [];
+    populateScores();
+    handleScreens();
+  }) // on button click show scores
 
-  // localStorage.setItem('records', JSON.stringify(records));
-  // var storedRecords = JSON.parse(localStorage.getItem('records'));
+  var localRecords = JSON.parse(localStorage.getItem('records'));
+  var records;
+
+  if (localRecords) {
+    records = localRecords;
+  }
+
+  else {
+    records = [];
+  }
 
   function handleScores() {
-    // var record = {};
-    // record.user = currentUser;
-    // record.result = score;
-    // records.push(record);
-    localStorage.setItem('user', currentUser);
-    localStorage.setItem('score', score);
+    var record = {};
+    record.user = currentUser;
+    record.result = score;
+    records.push(record);
 
-    var storedUser = localStorage.getItem('user');
-    var storedScored = localStorage.getItem('score');
-
+    localStorage.setItem('records', JSON.stringify(records)); // save all the information to local storage
 
     // screens
-    $('#question-page').hide(); // hide questions
-    $('#highscores-page').show(); // show scores
+    handleScreens();
 
     $('#scores-list').html(''); // erase all previous scores
 
-    // if (storedRecords) {
-    //   storedRecords.forEach(function(object, i) {
-    //     $('#scores-list').append("<li>"+storedUser+" - "+storedScored+"/4</li>"); // add values to the list
-    //   });
-    // }
+    populateScores();
+  }
 
-    $('#scores-list').append("<li>"+storedUser+" - "+storedScored+"/4</li>"); // add values to the list
+  function populateScores() {
+    $('#scores-list').empty();
+
+    records.forEach(function(object) {
+      $('#scores-list').append("<li>"+object.user+" - "+object.result+"/4</li>"); // add values to the list
+    });
+  }
+
+  function handleScreens() {
+    $('#start-page').hide(); // hide start page
+    $('#question-page').hide(); // hide questions
+    $('#highscores-page').show(); // show scores
   }
 })
